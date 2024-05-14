@@ -29,6 +29,7 @@
         category_names: "{{ catagory }}"
         accept_list: "{{ accept_list }}"
         reject_list: "{{ reject_list }}"
+        reboot: "{{ reboot_required }}"
       when: "{{install_selected|bool}}"          
 
       
