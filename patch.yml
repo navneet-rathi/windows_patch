@@ -6,9 +6,6 @@
   become_user: SYSTEM 
   tasks:
 
-    - debug:
-        msg: "{{ install_cat }}"
-
     - name: Install all updates as many times as needed
       ansible.windows.win_updates:
         category_names: '*'
