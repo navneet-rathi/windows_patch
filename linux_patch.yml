@@ -15,4 +15,8 @@
 
     - name: debugging
       ansible.builtin.debug:
-        msg: "{{ patch_status }}"    
+        msg: "{{ patch_status }}" 
+
+    - name: Print the package facts
+      ansible.builtin.debug:
+        var: ansible_facts.packages    
