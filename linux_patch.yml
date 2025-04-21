@@ -1,0 +1,18 @@
+---
+- name: Gather patch status from Linux servers
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Check for available package updates
+      ansible.builtin.shell: "yum check-update || true"
+      register: patch_status
+      changed_when: false
+
+    - name: Save patch status to local JSON
+      copy:
+        content: "{{ patch_status.stdout }}"
+        dest: "/tmp/patch_status_{{ inventory_hostname }}.log"
+
+    - name: debugging
+      ansible.builtin.debug:
+        msg: "{{ patch_status }}"    
