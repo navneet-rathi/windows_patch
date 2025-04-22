@@ -23,3 +23,5 @@
     - name: Print the package facts
       ansible.builtin.debug:
         var: ansible_facts.packages    
+
+
