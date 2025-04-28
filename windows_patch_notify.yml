@@ -24,6 +24,7 @@
 
     - name: Create update report file
       copy:
+        unsafe_writes: true
         dest: C:\ansible_update_list.txt
         content: |
           Updates found on {{ inventory_hostname }}:
