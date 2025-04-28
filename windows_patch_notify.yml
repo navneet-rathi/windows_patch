@@ -29,7 +29,7 @@
         content: |
           Updates found on {{ inventory_hostname }}:
           {% for update in update_search.updates %}
-          - KB{{ update.kb[0] }}
+          - {{ update }}
           {% else %}
           No updates found.
           {% endfor %}
