@@ -20,7 +20,8 @@
   
     - name: print updates
       ansible.builtin.debug:
-        msg: "{{ update_search }}"
+        msg: "{{ item }}"
+      loop: update_search  
 
     - name: Create update report file
       copy:
