@@ -17,6 +17,10 @@
         category_names: '*'
         state: searched
       register: update_search
+  
+    - name: print updates
+      ansible.builtin.debug:
+        msg: "{{ update_search }}"
 
     - name: Create update report file
       copy:
