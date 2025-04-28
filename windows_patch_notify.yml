@@ -43,9 +43,9 @@
         password: "{{ smtp_password }}"
         to: "{{ email_recipient }}"
         from: "{{ email_sender }}"
-        subject: "Windows Update Report for {{ ansible_hostname }}"
+        subject: "Windows Update Report for {{ inventory_hostname }}"
         body: |
-          Please find the list of available updates for {{ ansible_hostname }} attached.
+          Please find the list of available updates for {{ inventory_hostname }} attached.
         attach:
           - "./windows_updates/{{ inventory_hostname }}_updates.txt"
         secure: starttls
