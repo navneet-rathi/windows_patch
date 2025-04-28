@@ -1,7 +1,7 @@
 ---
 - name: Check Windows updates and send via email
   hosts: windows
-  gather_facts: no
+  gather_facts: true
   vars:
     email_sender: dmeonavneet@gmail.com
     email_recipient: nrathi@redhat.com
@@ -28,7 +28,7 @@
         unsafe_writes: true
         dest: C:\ansible_update_list.txt
         content: |
-          Updates found on {{ ansible_hostname }}:
+          Updates found on {{ inventory_hostname }}:
 
           {% for update_id, update_info in update_search.updates.items() %}
           - Title: {{ update_info.title }}
