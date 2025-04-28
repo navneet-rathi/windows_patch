@@ -1,0 +1,52 @@
+---
+- name: Check Windows updates and send via email
+  hosts: windows
+  gather_facts: no
+  vars:
+    email_sender: dmeonavneet@gmail.com
+    email_recipient: nrathi@redhat.com
+    smtp_server: smtp.gmail.com
+    smtp_port: 587
+    smtp_username: dmeonavneet@gmail.com
+    smtp_password: "rbfqhoincpyouxqk"
+
+  tasks:
+
+    - name: Search for available Windows Updates
+      ansible.windows.win_updates:
+        category_names: '*'
+        state: searched
+      register: update_search
+
+    - name: Create update report file
+      copy:
+        dest: C:\ansible_update_list.txt
+        content: |
+          Updates found on {{ ansible_hostname }}:
+          {% for update in update_search.updates %}
+          - {{ update.title }}
+          {% else %}
+          No updates found.
+          {% endfor %}
+
+    - name: Fetch update report to control node
+      fetch:
+        src: C:\ansible_update_list.txt
+        dest: ./windows_updates/{{ inventory_hostname }}_updates.txt
+        flat: yes
+
+    - name: Send update report email
+      community.general.mail:
+        host: "{{ smtp_server }}"
+        port: "{{ smtp_port }}"
+        username: "{{ smtp_username }}"
+        password: "{{ smtp_password }}"
+        to: "{{ email_recipient }}"
+        from: "{{ email_sender }}"
+        subject: "Windows Update Report for {{ ansible_hostname }}"
+        body: |
+          Please find the list of available updates for {{ ansible_hostname }} attached.
+        attach:
+          - "./windows_updates/{{ inventory_hostname }}_updates.txt"
+        secure: starttls
+      delegate_to: localhost
