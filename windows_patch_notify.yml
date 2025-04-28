@@ -22,7 +22,7 @@
       copy:
         dest: C:\ansible_update_list.txt
         content: |
-          Updates found on {{ ansible_hostname }}:
+          Updates found on {{ inventory_hostname }}:
           {% for update in update_search.updates %}
           - {{ update.title }}
           {% else %}
