@@ -18,21 +18,26 @@
         state: searched
       register: update_search
   
-    - name: print updates
-      ansible.builtin.debug:
-        msg: "{{ item }}"
-      loop: "{{ update_search.updates }}"
-
+    # - name: print updates
+    #   ansible.builtin.debug:
+    #     msg: "{{ item }}"
+    #   loop: "{{ update_search.updates }}"
+      
     - name: Create update report file
       copy:
         unsafe_writes: true
         dest: C:\ansible_update_list.txt
         content: |
-          Updates found on {{ inventory_hostname }}:
-          {% for update in update_search.updates %}
-          - {{ update }}
+          Updates found on {{ ansible_hostname }}:
+
+          {% for update_id, update_info in update_search.updates.items() %}
+          - Title: {{ update_info.title }}
+            KB: {{ update_info.kb | join(', ') }}
+            Categories: {{ update_info.categories | join(', ') }}
+            Installed: {{ update_info.installed }}
+            Downloaded: {{ update_info.downloaded }}
           {% else %}
-          No updates found.
+          No updates available.
           {% endfor %}
 
     - name: Fetch update report to control node
