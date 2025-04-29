@@ -14,7 +14,6 @@
 
     - name: Search for available Windows Updates
       ansible.windows.win_updates:
-        category_names: '*'
         state: searched
       register: update_search
   
