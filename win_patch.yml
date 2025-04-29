@@ -1,11 +1,19 @@
 ---
 - name: Patching Remote Windows systems
   hosts: all
+  gather_facts: true
   become: true
   become_method: runas
   become_user: SYSTEM 
   tasks:
-      
+    - name: Display OS version
+      debug:
+        msg: "Windows Version: {{ ansible_distribution_version }}"
+
+    - name: Check if server are reachable or not
+      ansible.windows.win_ping:
+      register: ping_result
+
     - name: Install only particular updates based on the KB numbers
       ansible.windows.win_updates:
         category_names:

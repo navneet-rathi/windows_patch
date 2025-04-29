@@ -14,7 +14,7 @@
 #        reject_list: "{{ reject_list }}"
       when: "{{install_all|bool}}"   
 
-    - name: Install all security, critical, and rollup updates without a scheduled task   
+    - name: Install all updated based on catagory  
       ansible.windows.win_updates:
         category_names: "{{ catagory }}"
         reboot: "{{ reboot_required }}"
