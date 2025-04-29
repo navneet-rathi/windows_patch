@@ -1,0 +1,14 @@
+---
+- name: Patching Remote Windows systems
+  hosts: all
+  become: true
+  become_method: runas
+  become_user: SYSTEM 
+  tasks:
+      
+    - name: Install only particular updates based on the KB numbers
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+        accept_list:
+          - "{{ accept_list }}"
